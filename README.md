@@ -1,2 +1,24 @@
-# db-final-project
-Sistema de gestión para cadena minorista. Proyecto final de Base de Datos Avanzadas (ITLA). Implementación SQL Server + NoSQL con consultas complejas, procedimientos, triggers y arquitectura distribuida.
+# Sistema de Gestión para Cadena Minorista
+
+Proyecto final de Base de Datos Avanzadas (ITLA). Implementación SQL Server + NoSQL con consultas complejas, procedimientos, triggers y arquitectura distribuida.
+
+## Estructura del Proyecto
+
+- **docs/**: Documentación, diagramas y requisitos
+- **sql-server/**: Componentes de SQL Server
+- **nosql/**: Componente de base de datos NoSQL
+- **integration/**: Integración entre SQL Server y NoSQL
+- **optimization/**: Análisis de rendimiento y optimización
+- **team/**: Documentos relacionados con el trabajo en equipo
+
+## Requisitos
+
+- SQL Server
+- MongoDB/CosmosDB
+
+## Miembros del Equipo
+
+- [Miembro 1]
+- [Miembro 2]
+- [Miembro 3]
+- [Miembro 4]
