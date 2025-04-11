@@ -40,6 +40,9 @@
 
 -- This script executes all the database creation scripts in the correct order
 
+PRINT 'Starting database creation process...';
+PRINT '=================================';
+
 :r .\sql-server\schema\01_Database_Create.sql
 :r .\sql-server\schema\02_Store_Location_Tables.sql
 :r .\sql-server\schema\03_HR_Tables.sql
@@ -48,3 +51,6 @@
 :r .\sql-server\schema\06_Audit_Tables.sql
 :r .\sql-server\schema\07_Relationships.sql
 :r .\sql-server\schema\08_Indexes.sql
+
+PRINT '=================================';
+PRINT 'Database creation complete!';
