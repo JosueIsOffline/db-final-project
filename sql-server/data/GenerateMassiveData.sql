@@ -11,23 +11,23 @@ GO
 SET NOCOUNT ON;
 
 -- Variables para controlar la cantidad de datos a generar (reducidas para probar)
-DECLARE @CountryCount INT = 3;
-DECLARE @RegionsPerCountry INT = 3;       -- 9 regiones
-DECLARE @CitiesPerRegion INT = 3;         -- 27 ciudades
-DECLARE @StoreTypesCount INT = 5;
-DECLARE @StoresPerCity INT = 1;           -- 27 tiendas (reducido de 2 a 1)
-DECLARE @DepartmentsCount INT = 5;
-DECLARE @PositionsPerDepartment INT = 3;  -- 15 posiciones
-DECLARE @EmployeesPerStore INT = 5;       -- 135 empleados (reducido de 10 a 5)
-DECLARE @CategoryCount INT = 10;          -- Reducido de 20 a 10
-DECLARE @SuppliersCount INT = 20;         -- Reducido de 50 a 20 
-DECLARE @ProductsPerCategory INT = 10;    -- 100 productos (reducido de 20 a 10)
-DECLARE @LoyaltyLevelsCount INT = 4;
-DECLARE @CustomersCount INT = 200;        -- 100 clientes (reducido de 1000 a 100)
-DECLARE @PaymentMethodsCount INT = 5;
-DECLARE @PromotionsCount INT = 10;        -- Reducido de 20 a 10
-DECLARE @SalesCount INT = 50;             -- 50 ventas (reducido de 1000 a 50)
-DECLARE @MaxItemsPerSale INT = 3;         -- Máx 3 ítems por venta (reducido de 5 a 3)
+DECLARE @CountryCount INT = 3;                -- Mantiene igual (constante)
+DECLARE @RegionsPerCountry INT = 3;           -- Mantiene igual (constante)  
+DECLARE @CitiesPerRegion INT = 3;             -- Mantiene igual (constante)
+DECLARE @StoreTypesCount INT = 5;             -- Mantiene igual (constante)
+DECLARE @StoresPerCity INT = 2;               -- Aumentado de 1 a 2 (54 tiendas)
+DECLARE @DepartmentsCount INT = 5;            -- Mantiene igual (constante)
+DECLARE @PositionsPerDepartment INT = 3;      -- Mantiene igual (constante)
+DECLARE @EmployeesPerStore INT = 15;          -- Aumentado de 5 a 15 (810 empleados)
+DECLARE @CategoryCount INT = 10;              -- Mantiene igual (constante)
+DECLARE @SuppliersCount INT = 50;             -- Aumentado de 20 a 50
+DECLARE @ProductsPerCategory INT = 25;        -- Aumentado de 10 a 25 (250 productos)
+DECLARE @LoyaltyLevelsCount INT = 4;          -- Mantiene igual (constante)
+DECLARE @CustomersCount INT = 1000;           -- Aumentado de 200 a 1000
+DECLARE @PaymentMethodsCount INT = 5;         -- Mantiene igual (constante)
+DECLARE @PromotionsCount INT = 20;            -- Aumentado de 10 a 20
+DECLARE @SalesCount INT = 500;                -- Aumentado de 50 a 500
+DECLARE @MaxItemsPerSale INT = 5;             -- Aumentado de 3 a 5
 
 PRINT 'Iniciando generación de datos...';
 PRINT CONVERT(VARCHAR, GETDATE(), 120);
