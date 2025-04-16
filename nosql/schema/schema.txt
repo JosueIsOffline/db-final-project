@@ -1,0 +1,527 @@
+// MongoDB Schema for Retail Chain Management System
+// Use MongoDB shell commands to create the database and collections
+
+// Switch to the database (creates it if it doesn't exist)
+use RetailChainDB;
+
+// Create collections with validation schemas
+
+// LOCATION COLLECTIONS
+db.createCollection("countries", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["countryName", "countryCode", "isActive"],
+      properties: {
+        countryName: { bsonType: "string" },
+        countryCode: { bsonType: "string", pattern: "^[A-Z]{2}$" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("regions", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["regionName", "countryId", "isActive"],
+      properties: {
+        regionName: { bsonType: "string" },
+        countryId: { bsonType: "objectId" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("cities", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["cityName", "regionId", "isActive"],
+      properties: {
+        cityName: { bsonType: "string" },
+        regionId: { bsonType: "objectId" },
+        postalCode: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+// STORE COLLECTIONS
+db.createCollection("storeTypes", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["typeName", "isActive"],
+      properties: {
+        typeName: { bsonType: "string" },
+        description: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("stores", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["storeName", "storeCode", "storeTypeId", "address", "cityId", "openingDate", "isActive"],
+      properties: {
+        storeName: { bsonType: "string" },
+        storeCode: { bsonType: "string" },
+        storeTypeId: { bsonType: "objectId" },
+        address: { bsonType: "string" },
+        cityId: { bsonType: "objectId" },
+        city: { bsonType: "object" }, // Embedded city data for quick access
+        phone: { bsonType: "string" },
+        email: { bsonType: "string" },
+        managerId: { bsonType: "objectId" },
+        openingDate: { bsonType: "date" },
+        closingDate: { bsonType: "date" },
+        size: { bsonType: "double" }, // In square meters
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+// HR COLLECTIONS
+db.createCollection("departments", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["departmentName", "isActive"],
+      properties: {
+        departmentName: { bsonType: "string" },
+        description: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("positions", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["positionTitle", "departmentId", "isActive"],
+      properties: {
+        positionTitle: { bsonType: "string" },
+        departmentId: { bsonType: "objectId" },
+        department: { bsonType: "object" }, // Embedded department data
+        minSalary: { bsonType: "double" },
+        maxSalary: { bsonType: "double" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("employees", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["firstName", "lastName", "employeeCode", "hireDate", "birthDate", "positionId", "salary", "isActive"],
+      properties: {
+        firstName: { bsonType: "string" },
+        lastName: { bsonType: "string" },
+        employeeCode: { bsonType: "string" },
+        email: { bsonType: "string" },
+        phone: { bsonType: "string" },
+        hireDate: { bsonType: "date" },
+        terminationDate: { bsonType: "date" },
+        birthDate: { bsonType: "date" },
+        gender: { bsonType: "string", enum: ["M", "F", "O"] },
+        address: { bsonType: "string" },
+        cityId: { bsonType: "objectId" },
+        city: { bsonType: "object" }, // Embedded city data
+        positionId: { bsonType: "objectId" },
+        position: { bsonType: "object" }, // Embedded position data
+        storeId: { bsonType: "objectId" },
+        store: { bsonType: "object" }, // Embedded store data (minimal)
+        reportsTo: { bsonType: "objectId" },
+        manager: { bsonType: "object" }, // Embedded manager data (minimal)
+        salary: { bsonType: "double" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("schedules", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["employeeId", "workDate", "startTime", "endTime"],
+      properties: {
+        employeeId: { bsonType: "objectId" },
+        employee: { bsonType: "object" }, // Embedded employee data (minimal)
+        workDate: { bsonType: "date" },
+        startTime: { bsonType: "string" }, // Store as HH:MM format
+        endTime: { bsonType: "string" }, // Store as HH:MM format
+        isHoliday: { bsonType: "bool" },
+        isVacation: { bsonType: "bool" },
+        isSickLeave: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+// INVENTORY COLLECTIONS
+db.createCollection("categories", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["categoryName", "isActive"],
+      properties: {
+        categoryName: { bsonType: "string" },
+        parentCategoryId: { bsonType: "objectId" },
+        parentCategory: { bsonType: "object" }, // Embedded parent category data
+        ancestors: { bsonType: "array", items: { bsonType: "objectId" } }, // All ancestors for easy hierarchy navigation
+        description: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("suppliers", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["supplierName", "isActive"],
+      properties: {
+        supplierName: { bsonType: "string" },
+        contactName: { bsonType: "string" },
+        contactEmail: { bsonType: "string" },
+        contactPhone: { bsonType: "string" },
+        address: { bsonType: "string" },
+        cityId: { bsonType: "objectId" },
+        city: { bsonType: "object" }, // Embedded city data
+        taxId: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("products", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["productName", "productCode", "sku", "categoryId", "supplierId", "costPrice", "retailPrice", "isActive"],
+      properties: {
+        productName: { bsonType: "string" },
+        productCode: { bsonType: "string" },
+        sku: { bsonType: "string" },
+        barcode: { bsonType: "string" },
+        description: { bsonType: "string" },
+        categoryId: { bsonType: "objectId" },
+        category: { bsonType: "object" }, // Embedded category data
+        supplierId: { bsonType: "objectId" },
+        supplier: { bsonType: "object" }, // Embedded supplier data (minimal)
+        costPrice: { bsonType: "double" },
+        retailPrice: { bsonType: "double" },
+        discountPrice: { bsonType: "double" },
+        weight: { bsonType: "double" },
+        dimensions: { bsonType: "string" },
+        isPerishable: { bsonType: "bool" },
+        minStockLevel: { bsonType: "int" },
+        maxStockLevel: { bsonType: "int" },
+        reorderPoint: { bsonType: "int" },
+        promotions: { 
+          bsonType: "array", 
+          items: { bsonType: "objectId" } 
+        }, // Active promotions
+        priceHistory: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            properties: {
+              oldCostPrice: { bsonType: "double" },
+              newCostPrice: { bsonType: "double" },
+              oldRetailPrice: { bsonType: "double" },
+              newRetailPrice: { bsonType: "double" },
+              oldDiscountPrice: { bsonType: "double" },
+              newDiscountPrice: { bsonType: "double" },
+              changeDate: { bsonType: "date" },
+              changedBy: { bsonType: "objectId" },
+              changeReason: { bsonType: "string" }
+            }
+          }
+        },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("inventory", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["storeId", "productId", "quantityInStock"],
+      properties: {
+        storeId: { bsonType: "objectId" },
+        store: { bsonType: "object" }, // Embedded store data (minimal)
+        productId: { bsonType: "objectId" },
+        product: { bsonType: "object" }, // Embedded product data (minimal)
+        quantityInStock: { bsonType: "int" },
+        stockDate: { bsonType: "date" },
+        lastRestockDate: { bsonType: "date" },
+        nextRestockDate: { bsonType: "date" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("inventoryTransactions", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["storeId", "productId", "transactionType", "quantity", "transactionDate", "employeeId"],
+      properties: {
+        storeId: { bsonType: "objectId" },
+        store: { bsonType: "object" }, // Embedded store data (minimal)
+        productId: { bsonType: "objectId" },
+        product: { bsonType: "object" }, // Embedded product data (minimal)
+        transactionType: { 
+          bsonType: "string", 
+          enum: ["Purchase", "Sale", "Return", "Transfer", "Adjustment", "Loss"] 
+        },
+        quantity: { bsonType: "int" },
+        transactionDate: { bsonType: "date" },
+        sourceStoreId: { bsonType: "objectId" },
+        sourceStore: { bsonType: "object" }, // Embedded source store data (for transfers)
+        employeeId: { bsonType: "objectId" },
+        employee: { bsonType: "object" }, // Embedded employee data (minimal)
+        purchaseOrderId: { bsonType: "objectId" },
+        saleId: { bsonType: "objectId" },
+        notes: { bsonType: "string" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+// SALES COLLECTIONS
+db.createCollection("loyaltyLevels", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["levelName", "minimumPoints", "discountPercentage", "isActive"],
+      properties: {
+        levelName: { bsonType: "string" },
+        minimumPoints: { bsonType: "int" },
+        discountPercentage: { bsonType: "double" },
+        otherBenefits: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("customers", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["firstName", "lastName", "isActive", "joinDate"],
+      properties: {
+        firstName: { bsonType: "string" },
+        lastName: { bsonType: "string" },
+        email: { bsonType: "string" },
+        phone: { bsonType: "string" },
+        address: { bsonType: "string" },
+        cityId: { bsonType: "objectId" },
+        city: { bsonType: "object" }, // Embedded city data
+        loyaltyCardNumber: { bsonType: "string" },
+        loyaltyPoints: { bsonType: "int" },
+        loyaltyLevelId: { bsonType: "objectId" },
+        loyaltyLevel: { bsonType: "object" }, // Embedded loyalty level data
+        birthDate: { bsonType: "date" },
+        gender: { bsonType: "string", enum: ["M", "F", "O"] },
+        isActive: { bsonType: "bool" },
+        joinDate: { bsonType: "date" },
+        lastPurchaseDate: { bsonType: "date" },
+        purchaseHistory: {
+          bsonType: "array",
+          items: { bsonType: "objectId" } // References to sales
+        },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("paymentMethods", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["methodName", "isActive"],
+      properties: {
+        methodName: { bsonType: "string" },
+        description: { bsonType: "string" },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("promotions", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["promotionName", "startDate", "endDate", "discountType", "discountValue", "isActive"],
+      properties: {
+        promotionName: { bsonType: "string" },
+        description: { bsonType: "string" },
+        startDate: { bsonType: "date" },
+        endDate: { bsonType: "date" },
+        discountType: { 
+          bsonType: "string", 
+          enum: ["Percentage", "FixedAmount", "BuyXGetY"] 
+        },
+        discountValue: { bsonType: "double" },
+        minimumPurchase: { bsonType: "double" },
+        products: {
+          bsonType: "array",
+          items: { bsonType: "objectId" } // Products this promotion applies to
+        },
+        isActive: { bsonType: "bool" },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+db.createCollection("sales", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["saleNumber", "storeId", "employeeId", "saleDate", "subTotal", "taxAmount", "totalAmount", "paymentMethodId", "status"],
+      properties: {
+        saleNumber: { bsonType: "string" },
+        storeId: { bsonType: "objectId" },
+        store: { bsonType: "object" }, // Embedded store data (minimal)
+        customerId: { bsonType: "objectId" },
+        customer: { bsonType: "object" }, // Embedded customer data (minimal)
+        employeeId: { bsonType: "objectId" },
+        employee: { bsonType: "object" }, // Embedded employee/cashier data (minimal)
+        saleDate: { bsonType: "date" },
+        subTotal: { bsonType: "double" },
+        taxAmount: { bsonType: "double" },
+        discountAmount: { bsonType: "double" },
+        totalAmount: { bsonType: "double" },
+        paymentMethodId: { bsonType: "objectId" },
+        paymentMethod: { bsonType: "object" }, // Embedded payment method data
+        paymentReference: { bsonType: "string" },
+        loyaltyPointsEarned: { bsonType: "int" },
+        promotionId: { bsonType: "objectId" },
+        promotion: { bsonType: "object" }, // Embedded promotion data if applicable
+        notes: { bsonType: "string" },
+        status: { 
+          bsonType: "string", 
+          enum: ["Completed", "Returned", "Cancelled"] 
+        },
+        // Embedded sale details (line items) - denormalized for performance
+        items: {
+          bsonType: "array",
+          items: {
+            bsonType: "object",
+            required: ["productId", "quantity", "unitPrice", "unitCost", "lineTotal"],
+            properties: {
+              productId: { bsonType: "objectId" },
+              product: { bsonType: "object" }, // Embedded product data (minimal)
+              quantity: { bsonType: "int" },
+              unitPrice: { bsonType: "double" },
+              unitCost: { bsonType: "double" },
+              discount: { bsonType: "double" },
+              taxRate: { bsonType: "double" },
+              taxAmount: { bsonType: "double" },
+              lineTotal: { bsonType: "double" },
+              returnedQuantity: { bsonType: "int" },
+              returnReason: { bsonType: "string" }
+            }
+          }
+        },
+        createdDate: { bsonType: "date" },
+        modifiedDate: { bsonType: "date" }
+      }
+    }
+  }
+});
+
+// AUDIT COLLECTION
+db.createCollection("auditLogs", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["entityType", "entityId", "action", "timestamp", "performedBy"],
+      properties: {
+        entityType: { bsonType: "string" }, // Which collection was affected
+        entityId: { bsonType: "objectId" }, // ID of the document that was affected
+        action: { bsonType: "string", enum: ["INSERT", "UPDATE", "DELETE"] },
+        timestamp: { bsonType: "date" },
+        performedBy: { bsonType: "string" }, // Username or system
+        oldValues: { bsonType: "object" }, // Previous values before change
+        newValues: { bsonType: "object" }, // New values after change
+        reason: { bsonType: "string" },
+        ipAddress: { bsonType: "string" }
+      }
+    }
+  }
+});
+
+db.createCollection("loginAttempts", {
+  validator: {
+    $jsonSchema: {
+      bsonType: "object",
+      required: ["userName", "attemptDate", "successFlag", "ipAddress"],
+      properties: {
+        userName: { bsonType: "string" },
+        attemptDate: { bsonType: "date" },
+        successFlag: { bsonType: "bool" },
+        ipAddress: { bsonType: "string" },
+        userAgent: { bsonType: "string" },
+        failReason: { bsonType: "string" }
+      }
+    }
+  }
+});
