@@ -3,7 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { setupSwagger } = require('./config/swagger');
-const { connectToSQLServer, connectToMongoDB, getConnection } = require('./config/database');
+const { connectToSQLServer } = require('./config/database');
 
 // Importar rutas
 // const productRoutes = require('./routes/products');
@@ -17,10 +17,10 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Conectar a bases de datos
-// connectToSQLServer();
+// Connection to databases
+connectToSQLServer();
 // connectToMongoDB();
-getConnection()
+
 
 // Configurar Swagger
 // setupSwagger(app);

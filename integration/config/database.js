@@ -5,8 +5,8 @@ const Logger = require('../utils/logger');
 
 // SQL Server Configuration
 const sqlConfig = {
-  server: 'ASUSROG\\SQLEXPRESS3',
-  database: 'RetailChainDB',
+  server: process.env.SQL_SERVER || 'localhost',
+  database: process.env.SQL_DATABASE || 'RetailChainDB',
   options: {
     encrypt: false,
     trustServerCertificate: true,
@@ -16,7 +16,7 @@ const sqlConfig = {
 };
 
 // SQL Server Connection Pool
-const getConnection = async () => {
+const connectToSQLServer = async () => {
     const startTime = Date.now();
     try {
         const sqlPool = await sql.connect(sqlConfig);
@@ -60,5 +60,5 @@ const mongoURI = process.env.MONGO_URI || 'mongodb://localhost:27017/RetailChain
 // };
 
 module.exports = {
-    getConnection
+    connectToSQLServer
 }
