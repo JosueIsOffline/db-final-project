@@ -1,6 +1,7 @@
 const sql = require('mssql/msnodesqlv8');
 const mongoose = require('mongoose');
-const { Customer } = require('./models/mongoModels'); // Asegúrate de que la ruta sea correcta
+const { Customer } = require('../models/mongoModels'); // Asegúrate de que la ruta sea correcta
+require('dotenv').config(); 
 
 // Configuración SQL Server
 const sqlConfig = {
@@ -17,7 +18,7 @@ const sqlConfig = {
 };
 
 // Configuración MongoDB
-const mongoURI = 'mongodb+srv://josuehernandez2314:josue2314pro@cluster0.ydawrb3.mongodb.net/RetailChainDB?retryWrites=true&w=majority&appName=Cluster0'; // Cambia a la base de datos que estás usando
+const mongoURI = process.env.MONGO_URI; 
 
 // Función para procesar clientes en lotes
 async function syncCustomersInBatches(batchSize = 50) {
