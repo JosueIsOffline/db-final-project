@@ -1,54 +1,37 @@
-// Cargar variables de entorno
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const { setupSwagger } = require('./config/swagger');
-const { connectToSQLServer } = require('./config/database');
-
-// Importar rutas
-// const productRoutes = require('./routes/products');
-// const reservationRoutes = require('./routes/reservations');
-
-// Configurar app
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-// Middlewares
-app.use(cors());
+const cors = require('cors');
+
+app.logger = require('./utils/logger'); // Logger instance
+
+const { router } = require('./routes')
+
+
+// Database connections
+const { connectToSQLServer } = require('./databases/sqlClient');
+const connectToMongoDB = require('./databases/mongoClient');
+
+// Setup Swagger documentation
+const { setupSwagger } = require('./config/swagger');
+
 app.use(express.json());
 
-// Connection to databases
-connectToSQLServer();
-// connectToMongoDB();
+setupSwagger(app); // Setup Swagger documentation
 
 
-// Configurar Swagger
-// setupSwagger(app);
 
-// Rutas de la API
-// app.use('/api/products', productRoutes);
-// app.use('/api/reservations', reservationRoutes);
+app.use(cors())
+app.use("/", router)
 
-// Ruta base
-app.get('/', (req, res) => {
-  res.json({ 
-    message: 'API de Integración Retail',
-    docs: '/api-docs'
-  });
-});
+const PORT = process.env.PORT || 3000;
 
-// Middleware de errores
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    message: 'Error en el servidor',
-    error: process.env.NODE_ENV === 'production' ? null : err.message
-  });
-});
-
-// Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`Servidor ejecutándose en el puerto ${PORT}`);
-  console.log(`Documentación en http://localhost:${PORT}/api-docs`);
-});
+     connectToSQLServer()
+     connectToMongoDB()
+    
+    app.logger.log(`Server is starting on port ${PORT}`, 'success');
+    app.logger.log(`Server is running on http://localhost:${PORT}`, 'info');
+    app.logger.log(`API documentation running on http://localhost:${PORT}/api-docs`, 'debug');
+
+})
