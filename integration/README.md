@@ -15,6 +15,9 @@ La aplicación sigue una arquitectura de servicios y controladores para separar 
 
 ![Diagrama de la Arquitectua](./assets/api-diagram.png)
 
+### Diagrama de Sequencia
+![Diagrama de Sequencia](./assets/sequence-diagram.png)
+
 ## Flujo Principal: Reserva de Productos
 
 El flujo principal de la aplicación permite a los clientes reservar productos para recogerlos más tarde:
