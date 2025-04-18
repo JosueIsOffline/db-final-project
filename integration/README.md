@@ -13,17 +13,7 @@ La aplicación sigue una arquitectura de servicios y controladores para separar 
 
 ### Diagrama de la Arquitectura
 
-```
-┌───────────────┐           ┌───────────────┐
-│  Express API  │◄─────────►│   Cliente UI  │
-└───────┬───────┘           └───────────────┘
-        │
-  ┌─────┴──────┐
-  │            │
-┌─▼─────────┐ ┌▼──────────┐
-│ SQL Server│ │  MongoDB  │
-└───────────┘ └───────────┘
-```
+![Diagrama de la Arquitectua](./assets/api-diagram.png)
 
 ## Flujo Principal: Reserva de Productos
 
