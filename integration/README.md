@@ -69,6 +69,10 @@ retail-integration-api/
    SQL_DATABASE=RetailChainDB
    MONGO_URI=mongodb://localhost:27017/RetailChainDB
    ```
+NOTA: la conexion al cliente de SQL Server realizo para conectarse usando la autenticacion de windows,
+es por ello que se utilizo el [MSNodeSQLv8 driver](https://www.npmjs.com/package/mssql) puedes visitar
+la documentacion oficial para mas informacion. En dado caso que utilices el driver, el  SQL_USER y
+SQL_PASSWORD no seran necesarios. <3 happy coding!
 
 ## Ejecución
 
