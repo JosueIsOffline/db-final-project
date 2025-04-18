@@ -1,6 +1,8 @@
 const reservationService = require("../services/reservation.service");
 const Logger = require("../utils/logger");
 
+//TODO: Refactor controllers file to export one single object with all functions
+
 /**
  * Create a new reservation
  * @param {Request} req Express request object

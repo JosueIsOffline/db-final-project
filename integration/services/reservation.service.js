@@ -2,6 +2,8 @@ const { Customer, Reservation } = require("../models/mongoModels");
 const { Inventory, Product, Store } = require("../models/sqlModels");
 const crypto = require("crypto");
 
+//TODO: Refactor services file  to export one single object with all functions
+
 /**
  * Create a new reservation
  * @param {Object} data - Reservation data
