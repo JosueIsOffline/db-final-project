@@ -14,7 +14,7 @@ Proyecto final de Base de Datos Avanzadas (ITLA). Implementación SQL Server + N
 ## Requisitos
 
 - SQL Server
-- MongoDB/CosmosDB
+- MongoDB
 
 ## Miembros del Equipo
 
