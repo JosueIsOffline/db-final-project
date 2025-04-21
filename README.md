@@ -18,7 +18,7 @@ Proyecto final de Base de Datos Avanzadas (ITLA). Implementación SQL Server + N
 
 ## Miembros del Equipo
 
-- [Miembro 1]
+- [Josué Ricardo Hernández Montero](https://github.com/JosueIsOffline)
 - [Miembro 2]
 - [Miembro 3]
 - [Miembro 4]
