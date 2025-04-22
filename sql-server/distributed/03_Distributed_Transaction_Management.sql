@@ -19,7 +19,7 @@
     en la Fase 1, se procede a hacer el "commit", confirmando que la transacción fue exitosa. Si alguna base de datos 
     respondió con un "Abortar", se realiza un "rollback" en todas las bases de datos involucradas para deshacer los cambios.
 
-    Manejo de fallos:
+    ===========¿Cómo se manejan los fallos?===========
 
     Si ocurre un fallo en alguna de las bases de datos durante la transacción, el sistema garantiza la consistencia de los 
     datos al hacer un rollback de todos los cambios.
