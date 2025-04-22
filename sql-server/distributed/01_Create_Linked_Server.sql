@@ -16,13 +16,22 @@
 USE master
 GO
 
-EXEC sp_addlinkedserver 
-    @server = 'LOCAL', 
-    @srvproduct = '',
-    @provider = 'SQLNCLI11',
-    @datasrc = 'DESKTOP-2JU6T45';
+DECLARE @CurrentServerName NVARCHAR(128)
+DECLARE @SQL NVARCHAR(1000)
 
-PRINT 'Linked Server LOCAL created succesfully.';
+SELECT @CurrentServerName = @@SERVERNAME
+
+SET @SQL = N'
+EXEC sp_addlinkedserver 
+    @server = ''LOCAL'', 
+    @srvproduct = '''',
+    @provider = ''SQLNCLI11'',
+    @datasrc = ''' + @CurrentServerName + ''';'
+
+EXECUTE sp_executesql @SQL
+
+
+PRINT 'Linked Server LOCAL created successfully with datasrc = ' + @CurrentServerName;
 GO
 
 
